@@ -2,14 +2,15 @@
 
 // Setup Packages
 var fs = require("fs");
+
 var csv = require("csvtojson");
-var path = require("path");
 
-// Setup Read/Write paths
+var path = require("path"); // Setup Read/Write paths
+
+
 var readPath = path.join(__dirname, "./../csv/file.csv");
-var writePath = path.join(__dirname, "./../file.txt");
+var writePath = path.join(__dirname, "./../file.txt"); // Reader/Writer Streams
 
-// Reader/Writer Streams
 var reader = fs.createReadStream(readPath);
 var writer = fs.createWriteStream(writePath);
 
@@ -28,4 +29,6 @@ function csvToJson() {
   });
 }
 
-module.exports = { csvToJson: csvToJson };
+module.exports = {
+  csvToJson: csvToJson
+};
