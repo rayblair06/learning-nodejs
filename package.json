@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "task1": "nodemon ./task1.js",
-    "task2": "nodemon ./task2.js",
-    "build": "babel src -d dist",
+    "task1": "nodemon --exec babel-node ./task1.js",
+    "task2": "nodemon --exec babel-node ./task2.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,7 +24,7 @@
   "devDependencies": {
     "@babel/cli": "^7.15.7",
     "@babel/core": "^7.15.8",
-    "@babel/preset-env": "^7.15.8",
-    "babel-cli": "^6.26.0"
+    "@babel/node": "^7.15.8",
+    "@babel/preset-env": "^7.15.8"
   }
 }

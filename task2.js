@@ -1,3 +1,3 @@
-const { csvToJson } = require("./dist/task2.js");
+const { csvToJson } = require("./src/task2.js");
 
 csvToJson();
