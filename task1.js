@@ -1,11 +1,20 @@
-  var stdin = process.stdin;
+var stdin = process.stdin;
 
-  stdin.on('data', data => {
-        // Reverse our string and remove any newlines
-        // Return with newline
-        console.log(data
-          .reverse()
-          .toString()
-          .split(/[\r\n|\n]/)
-          .pop() + '\n\n');
-    });
+// Reverse our string and remove any newlines
+function transform(value) {
+  output(
+    value
+      .reverse()
+      .toString()
+      .split(/[\r\n|\n]/)
+      .pop()
+  );
+}
+
+// Output our value with newlines
+function output(value) {
+  console.log(value + "\n\n");
+}
+
+// When 'data' event is ran, transform and output
+stdin.on("data", transform);
