@@ -1,13 +1,15 @@
-var stdin = process.stdin;
+const reader = process.stdin;
 
 // Reverse our string and remove any newlines
 function transform(value) {
+  let transformed = value
+    .reverse()
+    .toString()
+    .split(/[\r\n|\n]/)
+    .pop();
+
   output(
-    value
-      .reverse()
-      .toString()
-      .split(/[\r\n|\n]/)
-      .pop()
+    transformed
   );
 }
 
@@ -17,4 +19,4 @@ function output(value) {
 }
 
 // When 'data' event is ran, transform and output
-stdin.on("data", transform);
+reader.on("data", transform);
