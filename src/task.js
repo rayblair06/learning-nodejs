@@ -1,10 +1,9 @@
-function csvToJson() {
-  // Setup Packages
-  const fs = require("fs");
-  const csv = require("csvtojson");
-  const path = require("path");
-  const { pipeline } = require("stream");
+import fs from "fs";
+import csv from "csvtojson";
+import path from "path";
+import { pipeline } from "stream";
 
+export function csvToJson() {
   // Setup Read/Write paths
   const readPath = path.join(__dirname, "./../csv/file.csv");
   const writePath = path.join(__dirname, "./../file.txt");
@@ -39,5 +38,3 @@ function csvToJson() {
   // Run our pipeline
   pipeline(reader, transform, writer, callback);
 }
-
-module.exports = { csvToJson };
