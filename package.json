@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "task": "nodemon --exec babel-node ./task.js",
-    "task1": "nodemon --exec babel-node ./task1.js",
-    "task2": "nodemon --exec babel-node ./task2.js",
+    "start": "nodemon --exec babel-node ./src/app.js",
+    "lint": "eslint 'src/**' --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,12 +19,17 @@
   },
   "homepage": "https://github.com/rayblair06/learning-nodejs#readme",
   "dependencies": {
-    "csvtojson": "^2.0.10"
+    "express": "^4.17.1",
+    "express-joi-validation": "^5.0.0",
+    "joi": "^17.4.2",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.7",
     "@babel/core": "^7.15.8",
+    "@babel/eslint-parser": "^7.5.4",
     "@babel/node": "^7.15.8",
-    "@babel/preset-env": "^7.15.8"
+    "@babel/preset-env": "^7.15.8",
+    "eslint": "^8.1.0"
   }
 }
