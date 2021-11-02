@@ -1,12 +1,10 @@
-const errorResponse = (schemaErrors) => {
-    const errors = schemaErrors.map(({ path, message }) => {
+import { ValidationError } from './errors';
+
+
+const mapSchemaErrors = (schemaErrors) => {
+    return schemaErrors.map(({ path, message }) => {
         return { path, message };
     });
-
-    return {
-        status: 'Failed',
-        errors
-    };
 };
 
 export const validateSchema = (schema) => {
@@ -17,9 +15,10 @@ export const validateSchema = (schema) => {
         });
 
         if (error && error.isJoi) {
-            return res.status(400).json(errorResponse(error.details));
+            throw new ValidationError(mapSchemaErrors(error.details));
         }
 
         next();
     };
 };
+

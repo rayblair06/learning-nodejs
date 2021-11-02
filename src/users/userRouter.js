@@ -9,77 +9,37 @@ export const userRouter = express.Router();
  * Router Definitions
  */
 userRouter.get('/', (req, res) => {
-    try {
-        const users = UserService.findAll();
+    const users = UserService.findAll();
 
-        res.status(200).send(users);
-    } catch (e) {
-        res.status(500).send(e.message);
-    }
+    res.status(200).send(users);
 });
 
 userRouter.get('/suggest', (req, res) => {
-    try {
-        const users = UserService.getAutoSuggestUsers(req.query.login, req.query.limit);
+    const users = UserService.getAutoSuggestUsers(req.query.login, req.query.limit);
 
-        res.status(200).send(users);
-    } catch (e) {
-        res.status(500).send(e.message);
-    }
+    res.status(200).send(users);
 });
 
 userRouter.get('/:id', (req, res) => {
-    try {
-        const user = UserService.findById(req.params.id);
+    const user = UserService.findById(req.params.id);
 
-        res.status(200).send(user);
-    } catch (e) {
-        if (e === 'User not found') {
-            res.status(404).send(e);
-        } else {
-            res.status(500).send(e.message);
-        }
-    }
+    res.status(200).send(user);
 });
 
 userRouter.post('/', validateSchema(createUserSchema), (req, res) => {
-    try {
-        const user = UserService.create(req.body);
+    const user = UserService.create(req.body);
 
-        res.status(200).send(user);
-    } catch (e) {
-        if (e === 'User not found') {
-            res.status(404).send(e);
-        } else {
-            res.status(500).send(e.message);
-        }
-    }
+    res.status(200).send(user);
 });
 
 userRouter.post('/:id', validateSchema(updateUserSchema), (req, res) => {
-    try {
-        const user = UserService.update(req.params.id, req.body);
+    const user = UserService.update(req.params.id, req.body);
 
-        res.status(200).send(user);
-    } catch (e) {
-        if (e === 'User not found') {
-            res.status(404).send(e);
-        } else {
-            res.status(500).send(e.message);
-        }
-    }
+    res.status(200).send(user);
 });
 
 userRouter.delete('/:id', (req, res) => {
-    try {
-        UserService.markAsDeleted(req.params.id);
+    UserService.markAsDeleted(req.params.id);
 
-        res.status(204).send();
-    } catch (e) {
-        if (e === 'User not found') {
-            res.status(404).send(e);
-        } else {
-            res.status(500).send(e.message);
-        }
-    }
+    res.status(204).send();
 });

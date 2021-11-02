@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { UserNotFoundError } from './../errors';
 
 /**
  * In-Memory Store
@@ -38,7 +39,7 @@ export const findById = (id) => {
     const user = users.find(item => item.id === id);
 
     if (!user) {
-        throw 'User not found';
+        throw new UserNotFoundError();
     }
 
     return user;
@@ -59,7 +60,7 @@ export const update = (id, data) => {
     const user = findById(id);
 
     if (!user) {
-        throw 'User not found';
+        throw new UserNotFoundError();
     }
 
     users[users.indexOf(user)] = {
@@ -74,7 +75,7 @@ export const markAsDeleted = (id) => {
     const user = findById(id);
 
     if (!user) {
-        throw 'User not found';
+        throw new UserNotFoundError();
     }
 
     user.isDeleted = true;
