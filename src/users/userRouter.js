@@ -8,38 +8,62 @@ export const userRouter = express.Router();
 /**
  * Router Definitions
  */
-userRouter.get('/', (req, res) => {
-    const users = UserService.findAll();
+userRouter.get('/', async (request, response, next) => {
+    try {
+        const users = await UserService.findAll();
 
-    res.status(200).send(users);
+        response.status(200).send(users);
+    } catch (error) {
+        return next(error);
+    }
 });
 
-userRouter.get('/suggest', (req, res) => {
-    const users = UserService.getAutoSuggestUsers(req.query.login, req.query.limit);
+userRouter.get('/suggest', async (request, response, next) => {
+    try {
+        const users = await UserService.getAutoSuggestUsers(request.query.login, request.query.limit);
 
-    res.status(200).send(users);
+        response.status(200).send(users);
+    } catch (error) {
+        return next(error);
+    }
 });
 
-userRouter.get('/:id', (req, res) => {
-    const user = UserService.findById(req.params.id);
+userRouter.get('/:id', async (request, response, next) => {
+    try {
+        const user = await UserService.findById(request.params.id);
 
-    res.status(200).send(user);
+        response.status(200).send(user);
+    } catch (error) {
+        return next(error);
+    }
 });
 
-userRouter.post('/', validateSchema(createUserSchema), (req, res) => {
-    const user = UserService.create(req.body);
+userRouter.post('/', validateSchema(createUserSchema), async (request, response, next) => {
+    try {
+        const user = await UserService.create(request.body);
 
-    res.status(200).send(user);
+        response.status(200).send(user);
+    } catch (error) {
+        return next(error);
+    }
 });
 
-userRouter.post('/:id', validateSchema(updateUserSchema), (req, res) => {
-    const user = UserService.update(req.params.id, req.body);
+userRouter.post('/:id', validateSchema(updateUserSchema), async (request, response, next) => {
+    try {
+        const user = await UserService.update(request.params.id, request.body);
 
-    res.status(200).send(user);
+        response.status(200).send(user);
+    } catch (error) {
+        return next(error);
+    }
 });
 
-userRouter.delete('/:id', (req, res) => {
-    UserService.markAsDeleted(req.params.id);
+userRouter.delete('/:id', async (request, response, next) => {
+    try {
+        await UserService.markAsDeleted(request.params.id);
 
-    res.status(204).send();
+        response.status(204).send();
+    } catch (error) {
+        return next(error);
+    }
 });
