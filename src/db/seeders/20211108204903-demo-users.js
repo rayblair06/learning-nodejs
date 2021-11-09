@@ -1,9 +1,9 @@
-'use strict';
+
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Users', [
-      {
+    up: (queryInterface) => {
+        return queryInterface.bulkInsert('Users', [
+            {
                 id: '6f7a7188-5b7d-4dbb-8a43-12031b94971e',
                 login: 'John Doe',
                 password: 'secret',
@@ -24,9 +24,9 @@ module.exports = {
                 age: 55,
                 isDeleted: false
             }
-  ]);
-  },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Users', null, {});
-  }
+        ]);
+    },
+    down: (queryInterface) => {
+        return queryInterface.bulkDelete('Users', null, {});
+    }
 };

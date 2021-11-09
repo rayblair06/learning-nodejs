@@ -1,7 +1,7 @@
 import express from 'express';
-import * as UserService from './userService';
-import { validateSchema } from './../utils';
-import { createUserSchema, updateUserSchema } from './userSchema';
+import * as UserService from '../services/user';
+import { validateSchema } from '../utilities/utils';
+import { createUserSchema, updateUserSchema } from '../validation/user.schema';
 
 export const userRouter = express.Router();
 
