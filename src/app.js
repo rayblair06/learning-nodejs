@@ -1,3 +1,12 @@
+/**
+ * Load our environment variables
+ */
+import dotenv from 'dotenv';
+dotenv.config();
+
+/**
+ * Bootstrap our application
+ */
 import express from 'express';
 import { userRouter } from './api/user';
 

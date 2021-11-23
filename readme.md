@@ -3,6 +3,7 @@
 ## Installation
 ```
 npm install
+cp .env.example .env
 ```
 
 ### Start NodeJS Server
