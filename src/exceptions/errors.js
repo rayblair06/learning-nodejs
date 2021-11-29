@@ -30,7 +30,7 @@ class UserNotFoundError extends ResponseError {
     }
 }
 
-module.exports = {
+export {
     ResponseError,
     ValidationError,
     UserNotFoundError

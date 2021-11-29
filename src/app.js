@@ -1,7 +1,16 @@
-import express from 'express';
-import { userRouter } from './users/userRouter';
+/**
+ * Load our environment variables
+ */
+import dotenv from 'dotenv';
+dotenv.config();
 
-import { errorLogger, errorResponder } from './middleware';
+/**
+ * Bootstrap our application
+ */
+import express from 'express';
+import { userRouter } from './api/user';
+
+import { errorLogger, errorResponder } from './loaders/middleware';
 
 const app = express();
 const port = 3000;

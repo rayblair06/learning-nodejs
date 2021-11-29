@@ -1,4 +1,4 @@
-import { ValidationError } from './errors';
+import { ValidationError } from '../exceptions/errors';
 
 
 const mapSchemaErrors = (schemaErrors) => {
