@@ -30,8 +30,21 @@ class UserNotFoundError extends ResponseError {
     }
 }
 
+class GroupNotFoundError extends ResponseError {
+    constructor() {
+        super();
+        this.name = this.constructor.name;
+        this.success = false;
+        this.status_code = 404;
+        this.errors = {
+            'message' :  'Group Not Found'
+        };
+    }
+}
+
 export {
     ResponseError,
     ValidationError,
-    UserNotFoundError
+    UserNotFoundError,
+    GroupNotFoundError
 };

@@ -9,6 +9,7 @@ dotenv.config();
  */
 import express from 'express';
 import { userRouter } from './api/user';
+import { groupRouter } from './api/group';
 
 import { errorLogger, errorResponder } from './loaders/middleware';
 
@@ -16,6 +17,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use('/groups', groupRouter);
 app.use('/users', userRouter);
 
 // Middleware
