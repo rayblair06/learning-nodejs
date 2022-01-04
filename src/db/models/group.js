@@ -30,4 +30,8 @@ const Group = db.define('group', {
     tableName: 'Groups'
 });
 
+Group.associate = models => {
+    Group.hasMany(models.User);
+};
+
 export default Group;

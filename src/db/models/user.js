@@ -32,4 +32,8 @@ const User = db.define('user', {
     tableName: 'Users'
 });
 
+User.associate = models => {
+    User.hasMany(models.Group);
+};
+
 export default User;
