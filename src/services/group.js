@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { GroupNotFoundError } from '../exceptions/errors';
 import Group from './../db/models/group';
+import UserGroup from './../db/models/usergroup';
+import db from './../loaders/db';
 
 /**
  * Service Methods
@@ -58,6 +60,27 @@ export const deleteGroup = async (id) => {
             id
         }
     });
+
+    return true;
+};
+
+export const addUsersToGroup = async (groupId, userIds) => {
+    const transaction = await db.transaction();
+
+    try {
+        for (const userId of userIds) {
+            await UserGroup.create({
+                groupId,
+                userId
+            }, {
+                transaction
+            });
+        }
+
+        await transaction.commit();
+    } catch (error) {
+        await transaction.rollback();
+    }
 
     return true;
 };

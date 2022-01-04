@@ -58,3 +58,13 @@ groupRouter.delete('/:id', async (request, response, next) => {
         return next(error);
     }
 });
+
+groupRouter.post('/:id/addUsers', async (request, response, next) => {
+    try {
+        await GroupService.addUsersToGroup(request.params.id, request.body.userIds);
+
+        response.status(StatusCodes.NO_CONTENT).send();
+    } catch (error) {
+        return next(error);
+    }
+});

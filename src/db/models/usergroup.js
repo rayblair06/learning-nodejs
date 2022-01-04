@@ -11,8 +11,10 @@ const UserGroup = db.define('user_group', {
     }
 }, {
     timestamps: false,
-    tableName: 'user_group'
+    tableName: 'UserGroup'
 });
+
+UserGroup.removeAttribute('id');
 
 UserGroup.associate = models => {
     UserGroup.belongsTo(models.User);
