@@ -1,15 +1,7 @@
-import express from 'express';
-import * as GroupService from '../services/group';
-import { validateSchema } from '../utilities/utils';
-import { createGroupSchema, updateGroupSchema } from '../orm/group.schema';
+import * as GroupService from '../../services/group';
 import { StatusCodes } from 'http-status-codes';
 
-export const groupRouter = express.Router();
-
-/**
- * Router Definitions
- */
-groupRouter.get('/', async (request, response, next) => {
+export const getGroups = async (request, response, next) => {
     try {
         const groups = await GroupService.findAll();
 
@@ -17,9 +9,9 @@ groupRouter.get('/', async (request, response, next) => {
     } catch (error) {
         return next(error);
     }
-});
+};
 
-groupRouter.get('/:id', async (request, response, next) => {
+export const getGroup = async (request, response, next) => {
     try {
         const group = await GroupService.findById(request.params.id);
 
@@ -27,9 +19,9 @@ groupRouter.get('/:id', async (request, response, next) => {
     } catch (error) {
         return next(error);
     }
-});
+};
 
-groupRouter.post('/', validateSchema(createGroupSchema), async (request, response, next) => {
+export const createGroup = async (request, response, next) => {
     try {
         const group = await GroupService.create(request.body);
 
@@ -37,9 +29,9 @@ groupRouter.post('/', validateSchema(createGroupSchema), async (request, respons
     } catch (error) {
         return next(error);
     }
-});
+};
 
-groupRouter.post('/:id', validateSchema(updateGroupSchema), async (request, response, next) => {
+export const updateGroup = async (request, response, next) => {
     try {
         const group = await GroupService.update(request.params.id, request.body);
 
@@ -47,9 +39,9 @@ groupRouter.post('/:id', validateSchema(updateGroupSchema), async (request, resp
     } catch (error) {
         return next(error);
     }
-});
+};
 
-groupRouter.delete('/:id', async (request, response, next) => {
+export const deleteGroup = async (request, response, next) => {
     try {
         await GroupService.deleteGroup(request.params.id);
 
@@ -57,9 +49,9 @@ groupRouter.delete('/:id', async (request, response, next) => {
     } catch (error) {
         return next(error);
     }
-});
+};
 
-groupRouter.post('/:id/addUsers', async (request, response, next) => {
+export const addUsersToGroup = async (request, response, next) => {
     try {
         await GroupService.addUsersToGroup(request.params.id, request.body.userIds);
 
@@ -67,4 +59,4 @@ groupRouter.post('/:id/addUsers', async (request, response, next) => {
     } catch (error) {
         return next(error);
     }
-});
+};

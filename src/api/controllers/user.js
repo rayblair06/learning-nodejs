@@ -1,15 +1,7 @@
-import express from 'express';
-import * as UserService from '../services/user';
-import { validateSchema } from '../utilities/utils';
-import { createUserSchema, updateUserSchema } from '../orm/user.schema';
+import * as UserService from '../../services/user';
 import { StatusCodes } from 'http-status-codes';
 
-export const userRouter = express.Router();
-
-/**
- * Router Definitions
- */
-userRouter.get('/', async (request, response, next) => {
+export const getUsers = async (request, response, next) => {
     try {
         const users = await UserService.findAll();
 
@@ -17,9 +9,9 @@ userRouter.get('/', async (request, response, next) => {
     } catch (error) {
         return next(error);
     }
-});
+};
 
-userRouter.get('/suggest', async (request, response, next) => {
+export const suggestUser = async (request, response, next) => {
     try {
         const users = await UserService.getAutoSuggestUsers(request.query.login, request.query.limit);
 
@@ -27,9 +19,9 @@ userRouter.get('/suggest', async (request, response, next) => {
     } catch (error) {
         return next(error);
     }
-});
+};
 
-userRouter.get('/:id', async (request, response, next) => {
+export const getUser = async (request, response, next) => {
     try {
         const user = await UserService.findById(request.params.id);
 
@@ -37,9 +29,9 @@ userRouter.get('/:id', async (request, response, next) => {
     } catch (error) {
         return next(error);
     }
-});
+};
 
-userRouter.post('/', validateSchema(createUserSchema), async (request, response, next) => {
+export const createUser = async (request, response, next) => {
     try {
         const user = await UserService.create(request.body);
 
@@ -47,9 +39,9 @@ userRouter.post('/', validateSchema(createUserSchema), async (request, response,
     } catch (error) {
         return next(error);
     }
-});
+};
 
-userRouter.post('/:id', validateSchema(updateUserSchema), async (request, response, next) => {
+export const updateUser = async (request, response, next) => {
     try {
         const user = await UserService.update(request.params.id, request.body);
 
@@ -57,9 +49,9 @@ userRouter.post('/:id', validateSchema(updateUserSchema), async (request, respon
     } catch (error) {
         return next(error);
     }
-});
+};
 
-userRouter.delete('/:id', async (request, response, next) => {
+export const deleteUser = async (request, response, next) => {
     try {
         await UserService.markAsDeleted(request.params.id);
 
@@ -67,4 +59,4 @@ userRouter.delete('/:id', async (request, response, next) => {
     } catch (error) {
         return next(error);
     }
-});
+};

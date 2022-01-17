@@ -1,5 +1,5 @@
 import * as Joi from 'joi';
-import { Permissions } from './../db/models/group';
+import { Permissions } from '../db/models/group';
 
 
 const name = Joi.string().required();

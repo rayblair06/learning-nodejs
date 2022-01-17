@@ -8,8 +8,7 @@ dotenv.config();
  * Bootstrap our application
  */
 import express from 'express';
-import { userRouter } from './api/user';
-import { groupRouter } from './api/group';
+import routes from './api/routes';
 
 import { errorLogger, errorResponder } from './loaders/middleware';
 
@@ -17,8 +16,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
-app.use('/groups', groupRouter);
-app.use('/users', userRouter);
+app.use(routes);
 
 // Middleware
 app.use(errorLogger);
