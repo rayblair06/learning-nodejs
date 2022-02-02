@@ -1,5 +1,7 @@
-import * as UserService from '../../services/user';
 import { StatusCodes } from 'http-status-codes';
+
+import * as UserService from '../../services/user';
+
 
 export const getUsers = async (request, response, next) => {
     try {

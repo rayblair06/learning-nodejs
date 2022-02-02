@@ -1,6 +1,8 @@
 
 import { DataTypes } from 'sequelize';
+
 import db from '../../loaders/db';
+
 
 const UserGroup = db.define('user_group', {
     userId: {

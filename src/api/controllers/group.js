@@ -1,5 +1,7 @@
-import * as GroupService from '../../services/group';
 import { StatusCodes } from 'http-status-codes';
+
+import * as GroupService from '../../services/group';
+
 
 export const getGroups = async (request, response, next) => {
     try {

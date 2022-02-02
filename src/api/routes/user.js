@@ -1,7 +1,9 @@
 import express from 'express';
-import { validateSchema } from '../../utilities/utils';
+
 import { createUserSchema, updateUserSchema } from '../../orm/user.schema';
+import { validateSchema } from '../../utilities/utils';
 import { userController } from '../controllers';
+
 
 export const router = express.Router();
 

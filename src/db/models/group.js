@@ -1,5 +1,7 @@
 import { DataTypes } from 'sequelize';
+
 import db from '../../loaders/db';
+
 
 export const Permissions = [
     'READ',

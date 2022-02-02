@@ -1,7 +1,9 @@
 import express from 'express';
-import { validateSchema } from '../../utilities/utils';
+
 import { createGroupSchema, updateGroupSchema } from '../../orm/group.schema';
+import { validateSchema } from '../../utilities/utils';
 import { groupController } from '../controllers';
+
 
 export const router = express.Router();
 

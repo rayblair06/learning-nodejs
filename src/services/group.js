@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { GroupNotFoundError } from '../exceptions/errors';
+
 import Group from '../db/models/group';
 import UserGroup from '../db/models/usergroup';
+import { GroupNotFoundError } from '../exceptions/errors';
 import db from '../loaders/db';
 
 /**
