@@ -8,7 +8,6 @@ import { serviceLogger, errorLogger, errorResponder, unhandledRejection, uncaugh
 
 dotenv.config();
 
-
 const app = express();
 const port = 3000;
 

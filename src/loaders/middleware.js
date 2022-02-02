@@ -1,22 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
-import { createLogger, format, transports } from 'winston';
 
+import { logger } from './logger';
 
-const date = new Date();
-const formatted_date = date
-    .toLocaleDateString('en-GB', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-    })
-    .replaceAll('/', '-');
-
-const logger = createLogger({
-    format: format.combine(format.timestamp(), format.json()),
-    transports: [new transports.File({ filename: `logs/${formatted_date}.log` })],
-    exceptionHandlers: [new transports.File({ filename: 'logs/exceptions.log' })],
-    rejectionHandlers: [new transports.File({ filename: 'logs/rejections.log' })]
-});
 
 const getActualRequestDurationInMilliseconds = start => {
     const NS_PER_SEC = 1e9; //  convert to nanoseconds
@@ -32,7 +17,12 @@ export const serviceLogger = (req, res, next) => {
     const start = process.hrtime();
     const durationInMilliseconds = getActualRequestDurationInMilliseconds(start);
 
-    logger.info(`[${method}] ${url} (${status}) - ${durationInMilliseconds.toLocaleString()} ms`);
+    logger.info({
+        method,
+        url,
+        status,
+        'duration': `${durationInMilliseconds.toLocaleString()} ms`
+    });
 
     next();
 };
@@ -52,11 +42,14 @@ export const errorResponder = (err, req, res, next) => {
 };
 
 export const unhandledRejection = (reason, promise) => {
-    logger.error(reason, 'Unhandled Rejection at Promise', promise);
+    logger.error({
+        reason,
+        error : `Unhandled Rejection at Promise: ${  promise}`
+    });
 };
 
 export const uncaughtException = (error) => {
-    logger.error(`${(new Date()).toUTCString()  } uncaughtException:`, error.message);
+    logger.error(`uncaughtException: ${  error.message}`);
     logger.error(error.stack);
     process.exit(1);
 };
