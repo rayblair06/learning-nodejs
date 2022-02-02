@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 
 import routes from './api/routes';
-import { serviceLogger, errorLogger, errorResponder } from './loaders/middleware';
+import { serviceLogger, errorLogger, errorResponder, unhandledRejection, uncaughtException } from './loaders/middleware';
 
 
 dotenv.config();
@@ -11,6 +11,10 @@ dotenv.config();
 
 const app = express();
 const port = 3000;
+
+process
+    .on('unhandledRejection', unhandledRejection)
+    .on('uncaughtException', uncaughtException);
 
 // Logging Middleware
 app.use(serviceLogger);
