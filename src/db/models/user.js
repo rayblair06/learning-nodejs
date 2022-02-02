@@ -1,6 +1,8 @@
 
 import { DataTypes } from 'sequelize';
+
 import db from '../../loaders/db';
+
 
 const User = db.define('user', {
     id: {
@@ -31,5 +33,9 @@ const User = db.define('user', {
     timestamps: false,
     tableName: 'Users'
 });
+
+User.associate = models => {
+    User.hasMany(models.Group);
+};
 
 export default User;

@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
+
+import User from '../db/models/user';
 import { UserNotFoundError } from '../exceptions/errors';
-import User from './../db/models/user';
 
 /**
  * Service Methods
