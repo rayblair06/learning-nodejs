@@ -1,4 +1,4 @@
-# learning-nodejs
+# learning-nodejs ![Build Status](https://github.com/rayblair06/learning-nodejs/workflows/Build/badge.svg) ![Tests Status](https://github.com/rayblair06/learning-nodejs/workflows/Run%20linting%20and%20tests/badge.svg)
 
 This is an example application for Node.js.
 

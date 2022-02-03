@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=nodejs
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=secret
+    networks:
+      - app
+    ports:
+      - 5432:5432
+
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    depends_on:
+      - postgres
+    volumes:
+        - ./:/app
+    env_file:
+      - .env
+    networks:
+      - app
+    ports:
+      - "3000:3000"
+
+networks:
+  app:
+    driver: bridge

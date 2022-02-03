@@ -1,7 +1,7 @@
 # QoL commands
 
 build:
-	@npm install
+	@docker-compose -f docker-compose.yml build
 
 build-db:
 	@docker run -d \
@@ -13,7 +13,7 @@ build-db:
 		postgres
 
 start:
-	@npm run start
+	@docker-compose up -d --build app
 
 start-db:
 	@docker start postgres
