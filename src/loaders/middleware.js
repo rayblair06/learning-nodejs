@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
+import jwt from 'jsonwebtoken';
 
 import { logger } from './logger';
 
@@ -53,4 +54,45 @@ export const uncaughtException = (error) => {
     logger.error(`uncaughtException: ${  error.message}`);
     logger.error(error.stack);
     process.exit(1);
+};
+
+export const checkToken = (request, response, next) => {
+    const token = request.headers['x-access-token'];
+
+    if (!token) {
+        return response
+            .status(StatusCodes.FORBIDDEN)
+            .send({
+                success: false,
+                message: 'No token provided'
+            });
+    }
+
+    if (!process.env.APP_KEY) {
+        logger.error('No Application Key');
+
+        return response
+            .status(StatusCodes.INTERNAL_SERVER_ERROR)
+            .send({
+                success : false,
+                message: 'Something went wrong.'
+            });
+    }
+
+    jwt.verify(token, process.env.APP_KEY, (error) => {
+        if (error) {
+            logger.error({
+                error : `Failed to authenticate token : ${error}`
+            });
+
+            return response
+                .status(StatusCodes.UNAUTHORIZED)
+                .send({
+                    success : false,
+                    message: 'Failed to authenticate token.'
+                });
+        }
+
+        next();
+    });
 };

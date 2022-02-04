@@ -18,6 +18,7 @@ Install dependencies and copy over .env
 ```
 npm install
 cp .env.example .env
+npm run generate-key
 ```
 
 Start Postgres Server (with Docker)
@@ -49,6 +50,7 @@ npm run start
 ## Commands
 ```
 npm start                     # Start NodeJS server
+npm run generate-key          # Generate App Key
 npm run lint                  # Lint and fix formatting
 npm run test                  # Run tests (WIP)
 npm run migrate               # Migrate database schema
