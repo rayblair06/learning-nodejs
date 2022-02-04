@@ -1,3 +1,4 @@
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 
@@ -13,6 +14,8 @@ const port = 3000;
 process
     .on('unhandledRejection', unhandledRejection)
     .on('uncaughtException', uncaughtException);
+
+app.use(cors());
 
 // Logging Middleware
 app.use(serviceLogger);
