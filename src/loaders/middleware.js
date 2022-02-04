@@ -35,6 +35,7 @@ export const errorLogger = (err, req, res, next) => {
 export const errorResponder = (err, req, res, next) => {
     if (!err.status_code) {
         logger.error(err);
+        logger.error(err.stack);
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Something went wrong');
     }
 
