@@ -24,7 +24,6 @@
   "homepage": "https://github.com/rayblair06/learning-nodejs#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "crypto": "^1.0.1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-joi-validation": "^5.0.0",

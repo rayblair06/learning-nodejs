@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
-import jwt from 'jsonwebtoken';
+
+import * as AuthService from '../services/auth';
 
 import { logger } from './logger';
 
@@ -56,6 +57,21 @@ export const uncaughtException = (error) => {
     process.exit(1);
 };
 
+export const noApplicationKey = (request, response, next) => {
+    if (!process.env.APP_KEY) {
+        logger.error("No Application Key, please generate one using 'npm run generate-key'.");
+
+        return response
+            .status(StatusCodes.INTERNAL_SERVER_ERROR)
+            .send({
+                success : false,
+                message: 'Something went wrong.'
+            });
+    }
+
+    next();
+};
+
 export const checkToken = (request, response, next) => {
     const token = request.headers['x-access-token'];
 
@@ -79,20 +95,7 @@ export const checkToken = (request, response, next) => {
             });
     }
 
-    jwt.verify(token, process.env.APP_KEY, (error) => {
-        if (error) {
-            logger.error({
-                error : `Failed to authenticate token : ${error}`
-            });
+    AuthService.verifyToken(token);
 
-            return response
-                .status(StatusCodes.UNAUTHORIZED)
-                .send({
-                    success : false,
-                    message: 'Failed to authenticate token.'
-                });
-        }
-
-        next();
-    });
+    next();
 };

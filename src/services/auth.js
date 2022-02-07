@@ -1,90 +1,33 @@
-import { v4 as uuidv4 } from 'uuid';
+import jwt from 'jsonwebtoken';
 
-import User from '../db/models/user';
-import { UserNotFoundError } from '../exceptions/errors';
+import { TokenExpiredError } from '../exceptions/errors';
+import { logger } from '../loaders/logger';
+
 
 /**
  * Service Methods
  */
-export const findAll = async () => {
-    const users = await User.findAll();
-
-    return users;
+export const createToken = (user) => {
+    return jwt.sign({
+        'sub' : user.id,
+        'isDeleted' : user.isDeleted
+    },
+    process.env.APP_KEY,
+    {
+        expiresIn: 600
+    });
 };
 
-export const findById = async (id) => {
-    const user = await User.findOne({
-        where: {
-            id
+export const verifyToken = (token) => {
+    return jwt.verify(token, process.env.APP_KEY, (error) => {
+        if (error) {
+            logger.error({
+                error : `Failed to authenticate token : ${error}`
+            });
+
+            throw new TokenExpiredError();
         }
+
+        return true;
     });
-
-    if (!user) {
-        throw new UserNotFoundError();
-    }
-
-    return user;
-};
-
-export const findByLogin = async (login) => {
-    const user = await User.findOne({
-        where: {
-            login
-        }
-    });
-
-    if (!user) {
-        throw new UserNotFoundError();
-    }
-
-    return user;
-};
-
-export const create = async (data) => {
-    const id = uuidv4();
-
-    const user = await User.create({
-        id,
-        ...data
-    });
-
-    return user;
-};
-
-export const update = async (id, data) => {
-    await User.update(data, {
-        where: {
-            id
-        }
-    });
-
-    const user = await User.findOne({
-        where: {
-            id
-        }
-    });
-
-    return user;
-};
-
-export const markAsDeleted = async (id) => {
-    await User.update({
-        isDeleted: true
-    }, {
-        where: {
-            id
-        }
-    });
-
-    return true;
-};
-
-export const getAutoSuggestUsers = async (loginSubstring, limit) => {
-    const users = await User.findAll();
-
-    return users.sort((a, b) => {
-        return a.login > b.login ? 1 : -1;
-    })
-        .filter(user => user.login.includes(loginSubstring))
-        .slice(0, limit);
 };

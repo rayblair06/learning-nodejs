@@ -1,9 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
-import jwt from 'jsonwebtoken';
 
+import * as AuthService from '../../services/auth';
 import * as UserService from '../../services/user';
-
-import { logger } from './../../loaders/logger';
 
 
 export const login = async (request, response, next) => {
@@ -19,25 +17,7 @@ export const login = async (request, response, next) => {
                 });
         }
 
-        if (!process.env.APP_KEY) {
-            logger.error('No Application Key');
-
-            return response
-                .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                .send({
-                    success : false,
-                    message: 'Something went wrong.'
-                });
-        }
-
-        const token = jwt.sign({
-            'sub' : user.id,
-            'isDeleted' : user.isDeleted
-        },
-        process.env.APP_KEY,
-        {
-            expiresIn: 600
-        });
+        const token = AuthService.createToken(user);
 
         return response.send({ token });
     } catch (error) {
