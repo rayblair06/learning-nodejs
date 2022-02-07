@@ -9,7 +9,6 @@ import { noApplicationKey, serviceLogger, errorLogger, errorResponder, unhandled
 dotenv.config();
 
 const app = express();
-const port = 3000;
 
 process
     .on('unhandledRejection', unhandledRejection)
@@ -30,7 +29,4 @@ app.use(routes);
 app.use(errorLogger);
 app.use(errorResponder);
 
-
-app.listen(port, () => {
-    console.log(`App listening at http://localhost:${port}`);
-});
+export { app };

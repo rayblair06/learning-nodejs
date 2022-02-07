@@ -10,4 +10,4 @@ RUN npm install
 
 EXPOSE 3000
 
-CMD nodemon --exec babel-node -r dotenv/config ./src/app.js
+CMD nodemon --exec babel-node -r dotenv/config ./src/server.js

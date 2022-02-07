@@ -9,4 +9,4 @@ RUN npm ci --production
 
 EXPOSE 3000
 
-CMD npx babel-node -r dotenv/config ./src/app.js
+CMD npx babel-node -r dotenv/config ./src/server.js
