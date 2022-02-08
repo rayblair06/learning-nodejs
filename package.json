@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node -r dotenv/config ./src/app.js",
-    "lint": "eslint 'src/**' --fix",
-    "lint-no-fix": "eslint 'src/**'",
+    "lint": "eslint 'src/**'",
+    "lint-fix": "eslint 'src/**' --fix",
     "test": "echo \"Error: no test specified\" && exit 0",
     "generate-key": "node ./src/scripts/generateKey.js",
     "migrate": "npx sequelize-cli db:migrate",
