@@ -14,37 +14,26 @@ This is an example application for Node.js.
 
 Follow the steps below to build and start the NodeJS server.
 
-Install dependencies and copy over .env
+Generate environment variables and application key.
 ```
-npm install
 cp .env.example .env
 npm run generate-key
 ```
 
-Start Postgres Server (with Docker)
+Build Docker image and start Docker container.
 ```
-docker run -d \
-    --name postgres \
-    -e POSTGRES_DB=nodejs \
-    -e POSTGRES_USER=root \
-    -e POSTGRES_PASSWORD=secret \
-    -p 5432:5432 \
-    postgres
+make build
+make start
 ```
 
-Migrate database schema
+Migrate database schema.
 ```
 npm run migrate
 ```
 
-Populate database with seeded data
+Populate database with seeded data.
 ```
 npm run seed
-```
-
-Start NodeJS Server
-```
-npm run start
 ```
 
 ## Commands
