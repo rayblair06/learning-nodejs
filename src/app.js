@@ -1,9 +1,9 @@
-
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 
 import routes from './api/routes';
-import { serviceLogger, errorLogger, errorResponder, unhandledRejection, uncaughtException } from './loaders/middleware';
+import { noApplicationKey, serviceLogger, errorLogger, errorResponder, unhandledRejection, uncaughtException } from './loaders/middleware';
 
 
 dotenv.config();
@@ -15,8 +15,12 @@ process
     .on('unhandledRejection', unhandledRejection)
     .on('uncaughtException', uncaughtException);
 
+app.use(cors());
+
 // Logging Middleware
 app.use(serviceLogger);
+app.use(noApplicationKey);
+
 
 // Router
 app.use(express.json());

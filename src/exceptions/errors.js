@@ -42,7 +42,20 @@ class GroupNotFoundError extends ResponseError {
     }
 }
 
+class TokenExpiredError extends ResponseError {
+    constructor() {
+        super();
+        this.name = this.constructor.name;
+        this.success = false;
+        this.status_code = 401;
+        this.errors = {
+            'message' : 'Failed to authenticate token'
+        };
+    }
+}
+
 export {
+    TokenExpiredError,
     ResponseError,
     ValidationError,
     UserNotFoundError,

@@ -26,6 +26,20 @@ export const findById = async (id) => {
     return user;
 };
 
+export const findByLogin = async (login) => {
+    const user = await User.findOne({
+        where: {
+            login
+        }
+    });
+
+    if (!user) {
+        throw new UserNotFoundError();
+    }
+
+    return user;
+};
+
 export const create = async (data) => {
     const id = uuidv4();
 
