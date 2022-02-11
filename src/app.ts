@@ -1,12 +1,9 @@
 import cors from 'cors';
-import dotenv from 'dotenv';
 import express from 'express';
 
 import routes from './api/routes';
 import { noApplicationKey, serviceLogger, errorLogger, errorResponder, unhandledRejection, uncaughtException } from './loaders/middleware';
 
-
-dotenv.config();
 
 const app = express();
 

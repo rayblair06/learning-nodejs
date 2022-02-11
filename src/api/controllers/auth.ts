@@ -1,10 +1,12 @@
+
+import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import * as AuthService from '../../services/auth';
 import * as UserService from '../../services/user';
 
 
-export const login = async (request, response, next) => {
+export const login = async (request: Request, response: Response, next: NextFunction) => {
     try {
         const user = await UserService.findByLogin(request.body.username);
 

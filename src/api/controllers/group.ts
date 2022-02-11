@@ -1,9 +1,10 @@
+import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import * as GroupService from '../../services/group';
 
 
-export const getGroups = async (request, response, next) => {
+export const getGroups = async (request: Request, response: Response, next: NextFunction) => {
     try {
         const groups = await GroupService.findAll();
 
@@ -13,7 +14,7 @@ export const getGroups = async (request, response, next) => {
     }
 };
 
-export const getGroup = async (request, response, next) => {
+export const getGroup = async (request: Request, response: Response, next: NextFunction) => {
     try {
         const group = await GroupService.findById(request.params.id);
 
@@ -23,7 +24,7 @@ export const getGroup = async (request, response, next) => {
     }
 };
 
-export const createGroup = async (request, response, next) => {
+export const createGroup = async (request: Request, response: Response, next: NextFunction) => {
     try {
         const group = await GroupService.create(request.body);
 
@@ -33,7 +34,7 @@ export const createGroup = async (request, response, next) => {
     }
 };
 
-export const updateGroup = async (request, response, next) => {
+export const updateGroup = async (request: Request, response: Response, next: NextFunction) => {
     try {
         const group = await GroupService.update(request.params.id, request.body);
 
@@ -43,7 +44,7 @@ export const updateGroup = async (request, response, next) => {
     }
 };
 
-export const deleteGroup = async (request, response, next) => {
+export const deleteGroup = async (request: Request, response: Response, next: NextFunction) => {
     try {
         await GroupService.deleteGroup(request.params.id);
 
@@ -53,7 +54,7 @@ export const deleteGroup = async (request, response, next) => {
     }
 };
 
-export const addUsersToGroup = async (request, response, next) => {
+export const addUsersToGroup = async (request: Request, response: Response, next: NextFunction) => {
     try {
         await GroupService.addUsersToGroup(request.params.id, request.body.userIds);
 

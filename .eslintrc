@@ -1,6 +1,7 @@
 {
-    "parser": "@babel/eslint-parser",
+    "parser": "@typescript-eslint/parser",
     "plugins": [
+        "@typescript-eslint",
         "import",
         "json"
     ],
@@ -28,7 +29,7 @@
             "restParams": true,
             "spread": true,
             "superInFunctions": true,
-            "templateStrings": true,
+            "templateStrings": true
         }
     },
     "rules": {

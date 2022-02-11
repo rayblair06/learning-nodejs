@@ -1,9 +1,10 @@
+import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import * as UserService from '../../services/user';
 
 
-export const getUsers = async (request, response, next) => {
+export const getUsers = async (request: Request, response: Response, next: NextFunction) => {
     try {
         const users = await UserService.findAll();
 
@@ -13,7 +14,7 @@ export const getUsers = async (request, response, next) => {
     }
 };
 
-export const suggestUser = async (request, response, next) => {
+export const suggestUser = async (request: Request, response: Response, next: NextFunction) => {
     try {
         const users = await UserService.getAutoSuggestUsers(request.query.login, request.query.limit);
 
@@ -23,7 +24,7 @@ export const suggestUser = async (request, response, next) => {
     }
 };
 
-export const getUser = async (request, response, next) => {
+export const getUser = async (request: Request, response: Response, next: NextFunction) => {
     try {
         const user = await UserService.findById(request.params.id);
 
@@ -33,7 +34,7 @@ export const getUser = async (request, response, next) => {
     }
 };
 
-export const createUser = async (request, response, next) => {
+export const createUser = async (request: Request, response: Response, next: NextFunction) => {
     try {
         const user = await UserService.create(request.body);
 
@@ -43,7 +44,7 @@ export const createUser = async (request, response, next) => {
     }
 };
 
-export const updateUser = async (request, response, next) => {
+export const updateUser = async (request: Request, response: Response, next: NextFunction) => {
     try {
         const user = await UserService.update(request.params.id, request.body);
 
@@ -53,7 +54,7 @@ export const updateUser = async (request, response, next) => {
     }
 };
 
-export const deleteUser = async (request, response, next) => {
+export const deleteUser = async (request: Request, response: Response, next: NextFunction) => {
     try {
         await UserService.markAsDeleted(request.params.id);
 
