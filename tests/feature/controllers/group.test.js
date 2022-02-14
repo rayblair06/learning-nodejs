@@ -1,12 +1,9 @@
 import Group from '../../../src/db/models/group';
 import { GroupNotFoundError } from '../../../src/exceptions/errors';
 import * as AuthService from '../../../src/services/auth';
-import * as GroupService from '../../../src/services/group';
+import * as GroupFake from '../../utils/fakes/group.fake';
+import request from '../../utils/mocks/request.mock';
 
-
-const supertest = require('supertest');
-
-const { app } = require('../../../src/app');
 
 // Create our Test AuthToken
 const authToken = AuthService.createToken({
@@ -18,29 +15,16 @@ const authToken = AuthService.createToken({
 });
 
 describe('Test the groups controller', () => {
-    test('It should return all groups', async () => {
-        // Mock Model findAll
-        jest.spyOn(Group, 'findAll').mockImplementation(() => {
-            return Promise.resolve([
-                {
-                    'id': '79836ba5-e47f-4322-a498-53e7744189ad',
-                    'name': 'Read only',
-                    'permissions': [
-                        'READ'
-                    ]
-                },
-                {
-                    'id': 'f5637788-3889-4a6e-9f5f-f38a1a144124',
-                    'name': 'Read/Write',
-                    'permissions': [
-                        'READ',
-                        'WRITE'
-                    ]
-                }
-            ]);
-        });
+    // Setup Fakes
+    GroupFake.findAll();
+    GroupFake.findOne();
+    GroupFake.create();
+    GroupFake.update();
+    GroupFake.destroy();
+    GroupFake.addUsersToGroup();
 
-        const response = await supertest(app)
+    test('It should return all groups', async () => {
+        const response = await request
             .get('/groups')
             .set('x-access-token', `${authToken}`);
 
@@ -60,20 +44,7 @@ describe('Test the groups controller', () => {
     });
 
     test('It should return individual group', async () => {
-        // Mock Model findOne
-        jest.spyOn(Group, 'findOne').mockImplementation(() => {
-            return Promise.resolve(
-                {
-                    'id': '79836ba5-e47f-4322-a498-53e7744189ad',
-                    'name': 'Read only',
-                    'permissions': [
-                        'READ'
-                    ]
-                }
-            );
-        });
-
-        const response = await supertest(app)
+        const response = await request
             .get('/groups/79836ba5-e47f-4322-a498-53e7744189ad')
             .set('x-access-token', `${authToken}`);
 
@@ -95,7 +66,7 @@ describe('Test the groups controller', () => {
             throw new GroupNotFoundError();
         });
 
-        const response = await supertest(app)
+        const response = await request
             .get('/groups/foo')
             .set('x-access-token', `${authToken}`);
 
@@ -113,19 +84,7 @@ describe('Test the groups controller', () => {
     });
 
     test('It can create new group', async () => {
-        // Mock Model create
-        jest.spyOn(Group, 'create').mockImplementation(() => {
-            return Promise.resolve(
-                {
-                    'id': '14a8def7-8994-40b6-951c-5d8f40e2e476',
-                    'name': 'New Group',
-                    'permissions': [
-                        'READ'
-                    ]
-                });
-        });
-
-        const response = await supertest(app)
+        const response = await request
             .post('/groups')
             .send({
                 'name': 'New Group',
@@ -147,12 +106,7 @@ describe('Test the groups controller', () => {
     });
 
     test('It can add users to group', async () => {
-        // Mock Service addUsersToGroup
-        jest.spyOn(GroupService, 'addUsersToGroup').mockImplementation(() => {
-            return true;
-        });
-
-        const response = await supertest(app)
+        const response = await request
             .post('/groups/79836ba5-e47f-4322-a498-53e7744189ad/addUsers')
             .send({
                 'userIds': [
@@ -166,7 +120,7 @@ describe('Test the groups controller', () => {
     });
 
     test('It throws validation error on creating group', async () => {
-        const response = await supertest(app)
+        const response = await request
             .post('/groups')
             .send({
                 'permissions': [
@@ -194,32 +148,16 @@ describe('Test the groups controller', () => {
     });
 
     test('It can update group', async () => {
-        // Mock Model update
-        jest.spyOn(Group, 'update').mockImplementation(() => {
-            return Promise.resolve(
-                {
-                    'id': '79836ba5-e47f-4322-a498-53e7744189ad',
-                    'name' : 'Can now write',
-                    'permissions' : [
-                        'READ',
-                        'WRITE'
-                    ]
-                });
+        GroupFake.findOne({
+            'id': '79836ba5-e47f-4322-a498-53e7744189ad',
+            'name' : 'Can now write',
+            'permissions' : [
+                'READ',
+                'WRITE'
+            ]
         });
 
-        jest.spyOn(Group, 'findOne').mockImplementation(() => {
-            return Promise.resolve(
-                {
-                    'id': '79836ba5-e47f-4322-a498-53e7744189ad',
-                    'name' : 'Can now write',
-                    'permissions' : [
-                        'READ',
-                        'WRITE'
-                    ]
-                });
-        });
-
-        const response = await supertest(app)
+        const response = await request
             .post('/groups/79836ba5-e47f-4322-a498-53e7744189ad')
             .send({
                 'name' : 'Can now write',
@@ -244,19 +182,7 @@ describe('Test the groups controller', () => {
     });
 
     test('It can delete group', async () => {
-        // Mock Model update
-        jest.spyOn(Group, 'destroy').mockImplementation(() => {
-            return Promise.resolve(
-                {
-                    'id': '79836ba5-e47f-4322-a498-53e7744189ad',
-                    'name': 'Read only',
-                    'permissions': [
-                        'READ'
-                    ]
-                });
-        });
-
-        const response = await supertest(app)
+        const response = await request
             .delete('/groups/79836ba5-e47f-4322-a498-53e7744189ad')
             .set('x-access-token', `${authToken}`);
 

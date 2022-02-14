@@ -1,11 +1,9 @@
 import User from '../../../src/db/models/user';
 import { UserNotFoundError } from '../../../src/exceptions/errors';
 import * as AuthService from '../../../src/services/auth';
+import * as UserFake from '../../utils/fakes/user.fake';
+import request from '../../utils/mocks/request.mock';
 
-
-const supertest = require('supertest');
-
-const { app } = require('../../../src/app');
 
 // Create our Test AuthToken
 const authToken = AuthService.createToken({
@@ -17,35 +15,14 @@ const authToken = AuthService.createToken({
 });
 
 describe('Test the users controller', () => {
-    test('It should return all users', async () => {
-        // Mock Model findAll
-        jest.spyOn(User, 'findAll').mockImplementation(() => {
-            return Promise.resolve([
-                {
-                    id: '6f7a7188-5b7d-4dbb-8a43-12031b94971e',
-                    login: 'John Doe',
-                    password: 'secret',
-                    age: 21,
-                    isDeleted: false
-                },
-                {
-                    id: '7e4e5a21-42c2-46a8-add1-ea799f547d5f',
-                    login: 'Jane Doe',
-                    password: 'secret',
-                    age: 25,
-                    isDeleted: false
-                },
-                {
-                    id: '1ab97ffa-bbef-4619-89d6-7aa218444353',
-                    login: 'John Carmack',
-                    password: 'secret',
-                    age: 55,
-                    isDeleted: false
-                }
-            ]);
-        });
+    // Setup Fakes
+    UserFake.findAll();
+    UserFake.findOne();
+    UserFake.create();
+    UserFake.update();
 
-        const response = await supertest(app)
+    test('It should return all users', async () => {
+        const response = await request
             .get('/users')
             .set('x-access-token', `${authToken}`);
 
@@ -64,20 +41,7 @@ describe('Test the users controller', () => {
     });
 
     test('It should return individual user', async () => {
-        // Mock Model findOne
-        jest.spyOn(User, 'findOne').mockImplementation(() => {
-            return Promise.resolve(
-                {
-                    id: '6f7a7188-5b7d-4dbb-8a43-12031b94971e',
-                    login: 'John Doe',
-                    password: 'secret',
-                    age: 21,
-                    isDeleted: false
-                }
-            );
-        });
-
-        const response = await supertest(app)
+        const response = await request
             .get('/users/6f7a7188-5b7d-4dbb-8a43-12031b94971e')
             .set('x-access-token', `${authToken}`);
 
@@ -99,7 +63,7 @@ describe('Test the users controller', () => {
             throw new UserNotFoundError();
         });
 
-        const response = await supertest(app)
+        const response = await request
             .get('/users/foo')
             .set('x-access-token', `${authToken}`);
 
@@ -117,7 +81,7 @@ describe('Test the users controller', () => {
     });
 
     test('It can suggest usernames', async () => {
-        const response = await supertest(app)
+        const response = await request
             .get('/users/suggest?login=John&limit=2')
             .set('x-access-token', `${authToken}`);
 
@@ -134,17 +98,7 @@ describe('Test the users controller', () => {
     });
 
     test('It can create user', async () => {
-        // Mock Model create
-        jest.spyOn(User, 'create').mockImplementation(() => {
-            return Promise.resolve(
-                {
-                    'login': 'Tim Hall',
-                    'password': 'secret',
-                    'age': 33
-                });
-        });
-
-        const response = await supertest(app)
+        const response = await request
             .post('/users')
             .send({
                 'login': 'Tim Hall',
@@ -164,7 +118,7 @@ describe('Test the users controller', () => {
     });
 
     test('It throws validation error on create user', async () => {
-        const response = await supertest(app)
+        const response = await request
             .post('/users')
             .send({
                 'login': 'Jane Doe',
@@ -192,30 +146,15 @@ describe('Test the users controller', () => {
     });
 
     test('It can update user', async () => {
-        // Mock Model update
-        jest.spyOn(User, 'update').mockImplementation(() => {
-            return Promise.resolve(
-                {
-                    id: '6f7a7188-5b7d-4dbb-8a43-12031b94971e',
-                    'login': 'Tom Arnold',
-                    'password': 'secret',
-                    'age': 35,
-                    isDeleted: false
-                });
+        UserFake.findOne({
+            id: '6f7a7188-5b7d-4dbb-8a43-12031b94971e',
+            'login': 'Tom Arnold',
+            'password': 'secret',
+            'age': 35,
+            isDeleted: false
         });
 
-        jest.spyOn(User, 'findOne').mockImplementation(() => {
-            return Promise.resolve(
-                {
-                    id: '6f7a7188-5b7d-4dbb-8a43-12031b94971e',
-                    'login': 'Tom Arnold',
-                    'password': 'secret',
-                    'age': 35,
-                    isDeleted: false
-                });
-        });
-
-        const response = await supertest(app)
+        const response = await request
             .post('/users/6f7a7188-5b7d-4dbb-8a43-12031b94971e')
             .send({
                 'login': 'Tom Arnold',
@@ -238,18 +177,15 @@ describe('Test the users controller', () => {
 
     test('It can delete user', async () => {
         // Mock Model update
-        jest.spyOn(User, 'update').mockImplementation(() => {
-            return Promise.resolve(
-                {
-                    id: '1ab97ffa-bbef-4619-89d6-7aa218444353',
-                    login: 'John Carmack',
-                    password: 'secret',
-                    age: 55,
-                    isDeleted: true
-                });
+        UserFake.update({
+            id: '1ab97ffa-bbef-4619-89d6-7aa218444353',
+            login: 'John Carmack',
+            password: 'secret',
+            age: 55,
+            isDeleted: true
         });
 
-        const response = await supertest(app)
+        const response = await request
             .delete('/users/1ab97ffa-bbef-4619-89d6-7aa218444353')
             .set('x-access-token', `${authToken}`);
 
