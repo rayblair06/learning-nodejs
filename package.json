@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node -r dotenv/config ./src/app.js",
-    "lint": "eslint 'src/**'",
-    "lint-fix": "eslint 'src/**' --fix",
-    "test": "echo \"Error: no test specified\" && exit 0",
+    "start": "nodemon --exec babel-node -r dotenv/config ./src/server.js",
+    "lint": "eslint 'src/**' 'tests/**'",
+    "lint-fix": "eslint 'src/**' 'tests/**' --fix ",
+    "test": "NODE_ENV=test jest",
     "generate-key": "node ./src/scripts/generateKey.js",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate-fresh": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
@@ -38,16 +38,21 @@
     "winston": "^3.5.1"
   },
   "devDependencies": {
+    "babel-jest": "^27.5.0",
     "@babel/cli": "^7.15.7",
-    "@babel/core": "^7.15.8",
+    "@babel/core": "^7.17.0",
     "@babel/eslint-parser": "^7.5.4",
     "@babel/node": "^7.15.8",
-    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-env": "^7.16.11",
     "@babel/register": "^7.16.0",
     "babel-polyfill": "^6.26.0",
     "eslint": "^8.8.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-json": "^3.1.0",
-    "sequelize-cli": "^6.3.0"
+    "jest": "^27.5.0",
+    "sequelize-cli": "^6.3.0",
+    "sequelize-mock": "^0.10.2",
+    "superagent": "^7.1.1",
+    "supertest": "^6.2.2"
   }
 }

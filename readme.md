@@ -40,8 +40,9 @@ npm run seed
 ```
 npm start                     # Start NodeJS server
 npm run generate-key          # Generate App Key
-npm run lint                  # Lint and fix formatting
-npm run test                  # Run tests (WIP)
+npm run lint                  # Run linter
+npm run lint-fix              # Run linter and fix formatting
+npm run test                  # Run tests with Jest
 npm run migrate               # Migrate database schema
 npm run migrate-fresh         # Drop database schema then rebuild
 npm run seed                  # Populate database with seeded data
