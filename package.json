@@ -52,7 +52,7 @@
     "jest": "^27.5.0",
     "sequelize-cli": "^6.3.0",
     "sequelize-mock": "^0.10.2",
-    "superagent": "^7.1.1",
+    "superagent": "^8.0.0",
     "supertest": "^6.2.2"
   }
 }
